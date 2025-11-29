@@ -1,6 +1,8 @@
  const axios = require("axios");
 
 module.exports = function (app) {
+
+    // API key untuk WhyUX react
     const apiKeys = [
         "8e62ceb90d9261f7da2311c2ad8a34044c3759addbe97e813cedb8472b8bdc48",
         "9d7feb76aa9da4fee2e14e993f69ceae24c8b0f621db9622c377a593e3fd2abc"
@@ -10,6 +12,9 @@ module.exports = function (app) {
         return apiKeys[Math.floor(Math.random() * apiKeys.length)];
     }
 
+    // ----------------------------------------
+    //  REACT API (link & emoji via query)
+    // ----------------------------------------
     app.get("/api/react", async (req, res) => {
         try {
             const { link, emoji } = req.query;
@@ -21,34 +26,32 @@ module.exports = function (app) {
                 });
             }
 
-            // Ambil API key random
-            const apiKey = getRandomKey();
+            const key = getRandomKey();
 
-            // URL API baru
+            // API asli WhyUX
             const url =
-                `https://api-sigma-ten-96.vercel.app/api/react` +
-                `?link=${encodeURIComponent(link)}` +
+                `https://react.whyux-xec.my.id/api/rch?` +
+                `key=${key}` +
+                `&link=${encodeURIComponent(link)}` +
                 `&emoji=${encodeURIComponent(emoji || "")}`;
 
-            // Request ke API React baru
             const response = await axios.get(url, {
                 headers: {
-                    "x-api-key": apiKey,
                     "User-Agent": "Mozilla/5.0"
                 }
             });
 
-            // Kirim balik hasilnya
+            // Output EXACT seperti server kamu
             res.status(200).json({
                 status: true,
-                creator: "Rynn",
+                creator: "Daffa",
                 result: response.data
             });
 
         } catch (err) {
             res.status(500).json({
                 status: false,
-                creator: "Rynn",
+                creator: "Daffa",
                 error: err.response?.data || err.message
             });
         }
