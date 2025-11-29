@@ -24,16 +24,17 @@ module.exports = function (app) {
             // Ambil API key random
             const apiKey = getRandomKey();
 
+            // URL API baru
             const url =
-                `https://react.whyux-xec.my.id/api/rch` +
-                `?key=${apiKey}` +
-                `&link=${encodeURIComponent(link)}` +
+                `https://api-sigma-ten-96.vercel.app/api/react` +
+                `?link=${encodeURIComponent(link)}` +
                 `&emoji=${encodeURIComponent(emoji || "")}`;
 
-            // Request ke API WhyUX
+            // Request ke API React baru
             const response = await axios.get(url, {
                 headers: {
-                    "User-Agent": "Mozilla/5.0" // membantu menghindari 403
+                    "x-api-key": apiKey,
+                    "User-Agent": "Mozilla/5.0"
                 }
             });
 
