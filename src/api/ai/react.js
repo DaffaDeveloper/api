@@ -1,4 +1,4 @@
-const axios = require("axios");
+ const axios = require("axios");
 
 module.exports = function (app) {
     const apiKeys = [
@@ -21,22 +21,34 @@ module.exports = function (app) {
                 });
             }
 
+            // Ambil API key random
             const apiKey = getRandomKey();
 
-            const url = `https://react.whyux-xec.my.id/api/rch?key=${apiKey}&link=${encodeURIComponent(link)}&emoji=${encodeURIComponent(emoji || "")}`;
+            const url =
+                `https://react.whyux-xec.my.id/api/rch` +
+                `?key=${apiKey}` +
+                `&link=${encodeURIComponent(link)}` +
+                `&emoji=${encodeURIComponent(emoji || "")}`;
 
-            const response = await axios.get(url);
+            // Request ke API WhyUX
+            const response = await axios.get(url, {
+                headers: {
+                    "User-Agent": "Mozilla/5.0" // membantu menghindari 403
+                }
+            });
 
+            // Kirim balik hasilnya
             res.status(200).json({
                 status: true,
-                creator: "@daffadevv",
+                creator: "Rynn",
                 result: response.data
             });
 
         } catch (err) {
             res.status(500).json({
                 status: false,
-                error: err.message
+                creator: "Rynn",
+                error: err.response?.data || err.message
             });
         }
     });
