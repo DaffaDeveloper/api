@@ -8,8 +8,14 @@ module.exports = function(app) {
                 `https://www.laurine.site/api/ai/heckai?query=${encodeURIComponent(content)}`
             );
 
-            // Response API ini biasanya pakai `result`
-            return response.data.result || response.data;
+            // Ambil hasil mentah
+            const data = response.data;
+
+            // Hapus field creator biar nggak muncul "@laurine"
+            if (data.creator) delete data.creator;
+            if (data.result?.creator) delete data.result.creator;
+
+            return data;
         } catch (error) {
             console.error("Error fetching from HeckAI:", error);
             throw error;
@@ -31,7 +37,8 @@ module.exports = function(app) {
 
             res.status(200).json({
                 status: true,
-                result
+                creator: "@daffadev",
+                result: result
             });
 
         } catch (error) {
